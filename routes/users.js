@@ -1,13 +1,21 @@
-const { application, Router } = require("express");
+// const { router } = require("express");
+//import express
+const express = require('express')
 
-router.get("/data/users", usersController.listUsers)
+//create a router object to handle the routes
+const router = express.Router()
+// Connecting Router to Controller
+const usersController = require("../controllers/users")
 
-router.get("/data/users/:id", usersController.showUser)
 
-router.post("/data/users", usersController.createUser)
+router.get("/users", usersController.listUsers)
 
-router.put("/data/users/:id", usersController.updateUser)
+router.get("/users/:id", usersController.showUser)
 
-router.delete("/data/users/:id", usersController.deleteUser)
+router.post("/users", usersController.createUser)
+
+router.put("/users/:id", usersController.updateUser)
+
+router.delete("/users/:id", usersController.deleteUser)
 
 module.exports = router;

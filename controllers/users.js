@@ -1,37 +1,40 @@
 const { application } = require("express")
 const { restart } = require("nodemon")
-const users = require("../data/users")
+const users = require("../data/index")
+const sampleUser = require("../data/sampleUser")
+
 
 const listUsers = (req, res) => {
+  console.log("listUsers")
   res.json(users)
 }
 
 const showUser = (req, res) => {
   let id = req.params.id
   let found = users.find((element) => {
-    return element._id == id;
+    return element.id == id;
   })
   res.json(found);
 }
 
 const createUser = (req, res) => {
   let postId = users.length + 1;
-  req.body._id = postId;
-  users.push(req.body)
+  sampleUser.id = postId;
+  users.push(sampleUser)
   res.json(users)
 }
 
 const updateUser = (req, res) => {
   let id = req.params.id
   let found = users.findIndex((element) => {
-    return element._id == id;
+    return element.id == id;
   });
-   const { sampleUser } = req;
+   const { body } = req;
    users[found] = {
     ...users[found],
-    ...sampleUser
-
+    ...body
   }
+  res.json(found)
 }
 
 const deleteUser = (req, res) => {
@@ -43,4 +46,4 @@ const deleteUser = (req, res) => {
   res.json(users)
 }
 
-module.exports = {listUser, showUser, createUser, updateUser, deleteUser}
+module.exports = {listUsers, showUser, createUser, updateUser, deleteUser}
