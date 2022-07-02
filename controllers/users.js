@@ -12,9 +12,15 @@ const listUsers = (req, res) => {
 const showUser = (req, res) => {
   let id = req.params.id
   let found = users.find((element) => {
-    return element.id == id;
-  })
-  res.json(found);
+    // if (element.id == id) {
+    return element.id == id;})
+  
+     if (found == undefined) {
+      console.log("404 Error")
+      return res.sendStatus(404)}
+     else if (found !== undefined){ 
+      res.json(found);}
+    
 }
 
 const createUser = (req, res) => {
@@ -28,14 +34,20 @@ const updateUser = (req, res) => {
   let id = req.params.id
   let found = users.findIndex((element) => {
     return element.id == id;
+    
   });
-   const { body } = req;
-   users[found] = {
+  if (found == -1) {
+    console.log("404 Error")
+    return res.sendStatus(400)}
+   else if (found !== -1){ 
+    const { body } = req;
+  users[found] = {
     ...users[found],
     ...body
   }
-  res.json(found)
-}
+  res.json(users)
+}}
+
 
 const deleteUser = (req, res) => {
   let id = req.params.id
